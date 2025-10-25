@@ -1,0 +1,251 @@
+/* Layout.css */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+.header {
+  background-color: var(--licorice);
+  color: white;
+  padding: 0.5rem 0;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  transition: var(--transition);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.logo:hover {
+  text-decoration: none;
+  text-shadow: 0 0 10px var(--bright-pink-crayola);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav li {
+  margin-left: 2rem;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav a:hover,
+.nav a.active {
+  background-color: rgba(244, 91, 105, 0.2);
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--bright-pink-crayola);
+  transition: var(--transition);
+  transform: translateX(-50%);
+}
+
+.nav a:hover::after,
+.nav a.active::after {
+  width: 80%;
+}
+
+.theme-toggle-container {
+  margin-left: 2rem;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: 2px solid var(--border-color);
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: var(--transition);
+  color: var(--text-color);
+}
+
+.theme-toggle:hover {
+  background-color: var(--border-color);
+  transform: scale(1.1);
+}
+
+.theme-toggle.dark {
+  border-color: var(--bright-pink-crayola);
+  color: var(--bright-pink-crayola);
+}
+
+.main-content {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  flex-grow: 1;
+  transition: var(--transition);
+}
+
+.footer {
+  background-color: var(--lavender-blush);
+  padding: 1.5rem 0;
+  margin-top: auto;
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-links {
+  margin-top: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  margin: 0 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--bright-pink-crayola);
+  background-color: rgba(244, 91, 105, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Mobile menu toggle */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: 1rem;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 3px 0;
+  transition: 0.3s;
+}
+
+/* Hamburger animation */
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 1rem;
+  }
+  
+  .nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--licorice);
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    z-index: var(--z-dropdown);
+  }
+  
+  .nav.nav-open {
+    display: block;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .nav ul {
+    flex-direction: column;
+  }
+  
+  .nav li {
+    margin: 0.5rem 0;
+  }
+  
+  .theme-toggle-container {
+    margin-left: 0;
+    margin-top: 1rem;
+    align-self: flex-end;
+  }
+  
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .main-content {
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
+  
+  .footer-content {
+    padding: 0 1rem;
+  }
+}
