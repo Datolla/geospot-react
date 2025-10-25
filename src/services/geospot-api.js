@@ -1,6 +1,6 @@
 // services/geospot-api.js
 class GeoSpotAPI {
-  constructor(baseURL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000') {
+  constructor(baseURL = process.env.REACT_APP_API_BASE_URL || 'https://geospot-b.onrender.com') {
     this.baseURL = baseURL;
   }
 

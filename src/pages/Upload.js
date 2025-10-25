@@ -87,7 +87,7 @@ const Upload = () => {
           />
           <label htmlFor="geojson-upload" className="upload-label">
             <div className="upload-content">
-              <div className="upload-icon">📁</div>
+              <div className="upload-icon">Upload</div>
               <p>
                 {file 
                   ? `Selected: ${file.name} (${(file.size / 1024).toFixed(2)} KB)` 
