@@ -92,7 +92,7 @@ const Layout = ({ children }) => {
                 onClick={toggleDarkMode}
                 aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {darkMode ? '☀' : '☾'}
+                <i className={`fas ${darkMode ? 'fa-sun' : 'fa-moon'}`}></i>
               </button>
             </div>
           </nav>

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import DatasetList from './pages/DatasetList';
 import DatasetDetail from './pages/DatasetDetail';
 import Upload from './pages/Upload';
+import './App.css';
 
 function App() {
   return (
