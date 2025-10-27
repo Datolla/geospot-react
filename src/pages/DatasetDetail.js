@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -24,6 +24,7 @@ const DatasetDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const mapRef = useRef(null);
 
   // Fetch dataset metadata
   const fetchDataset = async () => {
@@ -62,7 +63,7 @@ const DatasetDetail = () => {
     };
 
     fetchData();
-  }, [id, fetchDataset, fetchGeoJSON]);
+  }, [id]); // Only re-run when id changes, not when fetch functions change
 
   // Function to style GeoJSON features with simplified professional color scheme
   const styleFeature = (feature) => {
@@ -124,41 +125,47 @@ const DatasetDetail = () => {
     }
   };
   
-  // Component to fit map to data bounds and handle resize
+  // Component to fit map to data bounds
   const FitBounds = ({ geojsonData }) => {
     const map = useMap();
-    
-    useEffect(() => {
-      if (geojsonData && geojsonData.features && geojsonData.features.length > 0) {
-        // Create a temporary GeoJSON layer to get bounds
-        const geoJsonLayer = L.geoJSON(geojsonData);
-        if (geoJsonLayer.getBounds().isValid()) {
-          // Add a small delay to ensure the map is ready
-          setTimeout(() => {
-            map.fitBounds(geoJsonLayer.getBounds(), { padding: [50, 50] });
-          }, 100);
-        }
-      }
-    }, [geojsonData, map]);
 
-    // Handle window resize events
     useEffect(() => {
-      const handleResize = () => {
-        setTimeout(() => {
-          if (map && map.invalidateSize) {
-            map.invalidateSize();
+      // Only run after map is fully loaded and geojsonData is available
+      const timer = setTimeout(() => {
+        if (map && geojsonData && geojsonData.features && geojsonData.features.length > 0) {
+          try {
+            const geoJsonLayer = L.geoJSON(geojsonData);
+            const bounds = geoJsonLayer.getBounds();
+            
+            if (bounds && bounds.isValid()) {
+              // Simply call fitBounds without extra checks that might cause issues
+              map.fitBounds(bounds, { padding: [50, 50] });
+            }
+          } catch (error) {
+            // Silently handle errors to prevent UI disruption
           }
-        }, 100);
-      };
+        }
+      }, 500); // Slightly longer delay to ensure everything is ready
 
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }, [map]);
+      return () => clearTimeout(timer);
+    }, [geojsonData, map]); // Only re-run when these values change
 
     return null;
   };
 
-  if (loading) return <LoadingSpinner />;
+  // Handle map resize when fullscreen state changes
+  useEffect(() => {
+    if (mapRef.current && mapRef.current.invalidateSize) {
+      // Add a small delay to ensure DOM has updated
+      const timer = setTimeout(() => {
+        mapRef.current.invalidateSize();
+      }, 150);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isFullscreen]);
+
+  if (loading || !dataset || !geojsonData) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} onRetry={() => window.location.reload()} />;
 
   return (
@@ -217,37 +224,38 @@ const DatasetDetail = () => {
       <div className="map-section">
         <h3>Dataset Visualization</h3>
         <div className={`map-container ${isFullscreen ? 'fullscreen' : ''}`}>
-          {geojsonData ? (
-            <>
-              <button 
-                className="fullscreen-btn"
-                onClick={() => setIsFullscreen(!isFullscreen)}
-              >
-                {isFullscreen ? 'Exit Fullscreen' : 'View Fullscreen'}
-              </button>
-              <MapContainer 
-                center={[0, 0]} 
-                zoom={2} 
-                style={{ height: '100%', width: '100%' }}
-                scrollWheelZoom={true}
-                zoomControl={true}
-              >
-                <TileLayer
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {geojsonData && (
-                  <GeoJSON 
-                    data={geojsonData} 
-                    style={styleFeature}
-                    onEachFeature={onEachFeature}
-                  />
-                )}
-                <FitBounds geojsonData={geojsonData} />
-              </MapContainer>
-            </>
+          <button 
+            className="fullscreen-btn"
+            onClick={() => setIsFullscreen(!isFullscreen)}
+          >
+            {isFullscreen ? 'Exit Fullscreen' : 'View Fullscreen'}
+          </button>
+          {geojsonData.features && geojsonData.features.length > 0 ? (
+            <MapContainer 
+              center={[0, 0]} 
+              zoom={2} 
+              style={{ height: '100%', width: '100%' }}
+              scrollWheelZoom={true}
+              zoomControl={true}
+              attributionControl={true}
+              whenCreated={map => {
+                mapRef.current = map;
+                // Immediately adjust size when map is created
+                setTimeout(() => map.invalidateSize(), 100);
+              }}
+            >
+              <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <GeoJSON 
+                data={geojsonData} 
+                style={styleFeature}
+                onEachFeature={onEachFeature}
+              />
+            </MapContainer>
           ) : (
-            <div className="no-data">No GeoJSON data to display</div>
+            <div className="no-data">No features to display</div>
           )}
         </div>
       </div>
