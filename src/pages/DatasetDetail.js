@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
+import { MapContainer, TileLayer, GeoJSON, ZoomControl, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import GeoSpotAPI from '../services/geospot-api';
@@ -24,6 +24,8 @@ const DatasetDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [mapKey, setMapKey] = useState(0); // To force map re-render when data changes
+  const [mapBounds, setMapBounds] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Fetch dataset metadata
   const fetchDataset = async () => {
@@ -40,10 +42,55 @@ const DatasetDetail = () => {
     try {
       const data = await GeoSpotAPI.getDatasetGeoJSON(id);
       setGeojsonData(data);
-      // Force map to re-render with new data
-      setMapKey(prev => prev + 1);
+      // Calculate bounds and set them after data is loaded
+      setTimeout(() => {
+        calculateBounds(data);
+        setMapKey(prev => prev + 1);
+      }, 100);
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  // Function to calculate map bounds based on GeoJSON data
+  const calculateBounds = (geojsonData) => {
+    if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
+      return;
+    }
+
+    let minLat = Infinity;
+    let maxLat = -Infinity;
+    let minLng = Infinity;
+    let maxLng = -Infinity;
+
+    // Helper function to process coordinates
+    const processCoords = (coords) => {
+      if (typeof coords[0] === 'number' && typeof coords[1] === 'number') {
+        // Point coordinates [lng, lat]
+        const [lng, lat] = coords;
+        minLat = Math.min(minLat, lat);
+        maxLat = Math.max(maxLat, lat);
+        minLng = Math.min(minLng, lng);
+        maxLng = Math.max(maxLng, lng);
+      } else if (Array.isArray(coords[0])) {
+        // Array of coordinates for LineString, Polygon, etc.
+        coords.forEach(processCoords);
+      }
+    };
+
+    // Process each feature in the dataset
+    geojsonData.features.forEach(feature => {
+      if (feature.geometry && feature.geometry.coordinates) {
+        processCoords(feature.geometry.coordinates);
+      }
+    });
+
+    if (isFinite(minLat) && isFinite(maxLat) && isFinite(minLng) && isFinite(maxLng)) {
+      const bounds = [
+        [minLat, minLng],
+        [maxLat, maxLng]
+      ];
+      setMapBounds(bounds);
     }
   };
 
@@ -64,16 +111,54 @@ const DatasetDetail = () => {
     fetchData();
   }, [id]);
 
-  // Function to style GeoJSON features
+  // Function to style GeoJSON features with different colors for different geometry types using new color scheme
   const styleFeature = (feature) => {
-    return {
-      fillColor: '#3498db',
-      weight: 2,
-      opacity: 1,
-      color: '#2980b9',
-      dashArray: '3',
-      fillOpacity: 0.7
-    };
+    const geometryType = feature.geometry.type;
+    
+    let style = {};
+    
+    // Different styles for different geometry types using your new color palette
+    switch(geometryType) {
+      case 'Point':
+        style = {
+          radius: 8,
+          fillColor: "var(--syracuse-red-orange)", // Red-orange for points
+          color: "#000000", // Black border for contrast
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.8
+        };
+        break;
+      case 'LineString':
+        style = {
+          color: "var(--orange-wheel)", // Orange for lines
+          weight: 4,
+          opacity: 0.8
+        };
+        break;
+      case 'Polygon':
+      case 'MultiPolygon':
+        style = {
+          fillColor: "var(--myrtle-green)", // Green for polygons
+          weight: 2,
+          opacity: 1,
+          color: "#000000", // Black border for contrast
+          dashArray: '3',
+          fillOpacity: 0.7
+        };
+        break;
+      default:
+        style = {
+          fillColor: "var(--icterine)", // Yellow for other types
+          weight: 2,
+          opacity: 1,
+          color: "#000000", // Black border for contrast
+          dashArray: '3',
+          fillOpacity: 0.7
+        };
+    }
+    
+    return style;
   };
 
   // Function to handle each feature
@@ -84,6 +169,37 @@ const DatasetDetail = () => {
         .join('<br>');
       layer.bindPopup(popupContent);
     }
+  };
+  
+  // Component to fit map to data bounds and handle resize
+  const FitBounds = ({ geojsonData }) => {
+    const map = useMap();
+    
+    useEffect(() => {
+      if (geojsonData && geojsonData.features && geojsonData.features.length > 0) {
+        // Create a temporary GeoJSON layer to get bounds
+        const geoJsonLayer = L.geoJSON(geojsonData);
+        if (geoJsonLayer.getBounds().isValid()) {
+          map.fitBounds(geoJsonLayer.getBounds(), { padding: [50, 50] });
+        }
+      }
+    }, [geojsonData, map]);
+
+    // Handle window resize events
+    useEffect(() => {
+      const handleResize = () => {
+        setTimeout(() => {
+          if (map && map.invalidateSize) {
+            map.invalidateSize();
+          }
+        }, 100);
+      };
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, [map]);
+
+    return null;
   };
 
   if (loading) return <LoadingSpinner />;
@@ -144,27 +260,37 @@ const DatasetDetail = () => {
 
       <div className="map-section">
         <h3>Dataset Visualization</h3>
-        <div className="map-container">
+        <div className={`map-container ${isFullscreen ? 'fullscreen' : ''}`}>
           {geojsonData ? (
-            <MapContainer 
-              key={mapKey}
-              center={[0, 0]} 
-              zoom={2} 
-              style={{ height: '500px', width: '100%' }}
-              scrollWheelZoom={true}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {geojsonData && (
-                <GeoJSON 
-                  data={geojsonData} 
-                  style={styleFeature}
-                  onEachFeature={onEachFeature}
+            <>
+              <button 
+                className="fullscreen-btn"
+                onClick={() => setIsFullscreen(!isFullscreen)}
+              >
+                {isFullscreen ? 'Exit Fullscreen' : 'View Fullscreen'}
+              </button>
+              <MapContainer 
+                key={mapKey}
+                center={[0, 0]} 
+                zoom={2} 
+                style={{ height: '100%', width: '100%' }}
+                scrollWheelZoom={true}
+                zoomControl={true}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-              )}
-            </MapContainer>
+                {geojsonData && (
+                  <GeoJSON 
+                    data={geojsonData} 
+                    style={styleFeature}
+                    onEachFeature={onEachFeature}
+                  />
+                )}
+                <FitBounds geojsonData={geojsonData} />
+              </MapContainer>
+            </>
           ) : (
             <div className="no-data">No GeoJSON data to display</div>
           )}

@@ -1,34 +1,34 @@
-/* Global styles for consistent design */
+/* Global styles for consistent design with dark theme */
 :root {
   /* Color palette variables */
-  --bright-pink-crayola: #f45b69;
-  --lavender-blush: #f6e8ea;
-  --licorice: #22181c;
-  --rosewood: #5a0001;
-  --vermilion: #f13030;
+  --icterine: #f7f052;
+  --orange-wheel: #f28123;
+  --syracuse-red-orange: #d34e24;
+  --caf-noir: #563f1b;
+  --myrtle-green: #38726c;
   
-  /* Dark mode variables */
-  --primary-color: var(--bright-pink-crayola);
-  --primary-dark: #d64a59;
-  --secondary-color: var(--vermilion);
-  --secondary-dark: #d92626;
-  --danger-color: var(--rosewood);
-  --danger-dark: #3a0000;
-  --success-color: var(--bright-pink-crayola);
-  --success-dark: #d64a59;
-  --warning-color: var(--vermilion);
-  --warning-dark: #d92626;
-  --dark-color: var(--licorice);
-  --light-color: var(--lavender-blush);
+  /* Dark-themed variables using your color palette */
+  --primary-color: var(--orange-wheel);
+  --primary-dark: #d96f1a;
+  --secondary-color: var(--myrtle-green);
+  --secondary-dark: #2d5c57;
+  --danger-color: var(--syracuse-red-orange);
+  --danger-dark: #b53d18;
+  --success-color: var(--myrtle-green);
+  --success-dark: #2d5c57;
+  --warning-color: var(--icterine);
+  --warning-dark: #e2d43d;
+  --dark-color: var(--icterine); /* Bright text for contrast */
+  --light-color: var(--caf-noir);
   --gray-color: #95a5a6;
-  --text-color: var(--licorice);
-  --text-light: #5a5a5a;
-  --text-lighter: #7f8c8d;
-  --bg-color: #ffffff;
-  --card-bg: var(--lavender-blush);
-  --border-color: #e0d6d8;
-  --shadow: 0 2px 8px rgba(0,0,0,0.1);
-  --shadow-hover: 0 6px 16px rgba(244, 91, 105, 0.2);
+  --text-color: var(--icterine);
+  --text-light: #c8b965;
+  --text-lighter: #a39755;
+  --bg-color: var(--caf-noir); /* Dark background */
+  --card-bg: #3e2d13;
+  --border-color: #6d5228;
+  --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-hover: 0 6px 16px rgba(242, 129, 35, 0.3);
   --border-radius: 12px;
   --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-fast: all 0.15s ease;
@@ -65,29 +65,29 @@
   --z-tooltip: 1070;
 }
 
-/* Dark mode variables */
+/* Dark mode variables with your new color scheme */
 [data-theme="dark"] {
-  --primary-color: #f45b69;
-  --primary-dark: #d64a59;
-  --secondary-color: #f13030;
-  --secondary-dark: #d92626;
-  --danger-color: #f45b69;
-  --danger-dark: #d64a59;
-  --success-color: #51cf66;
-  --success-dark: #37b24d;
-  --warning-color: #fcc419;
-  --warning-dark: #e6a204;
-  --dark-color: #f8f9fa;
-  --light-color: #212529;
-  --gray-color: #adb5bd;
-  --text-color: #e9ecef;
-  --text-light: #ced4da;
-  --text-lighter: #adb5bd;
-  --bg-color: #121212;
+  --primary-color: #f28123; /* orange-wheel */
+  --primary-dark: #d96f1a;
+  --secondary-color: #38726c; /* myrtle-green */
+  --secondary-dark: #2d5c57;
+  --danger-color: #d34e24; /* syracuse-red-orange */
+  --danger-dark: #b53d18;
+  --success-color: #38726c; /* myrtle-green */
+  --success-dark: #2d5c57;
+  --warning-color: #f7f052; /* icterine */
+  --warning-dark: #e2d43d;
+  --dark-color: #f7f052; /* icterine */
+  --light-color: #563f1b; /* caf-noir */
+  --gray-color: #95a5a6;
+  --text-color: #f7f052; /* icterine */
+  --text-light: #c8b965;
+  --text-lighter: #a39755;
+  --bg-color: #121212; /* traditional dark background */
   --card-bg: #1e1e1e;
   --border-color: #343a40;
   --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-hover: 0 8px 24px rgba(244, 91, 105, 0.3);
+  --shadow-hover: 0 8px 24px rgba(242, 129, 35, 0.3);
 }
 
 /* Consistent button styles */
