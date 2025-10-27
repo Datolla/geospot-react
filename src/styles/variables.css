@@ -1,4 +1,4 @@
-/* Global styles for consistent design with dark theme */
+/* Global styles for consistent design */
 :root {
   /* Color palette variables */
   --icterine: #f7f052;
@@ -7,7 +7,7 @@
   --caf-noir: #563f1b;
   --myrtle-green: #38726c;
   
-  /* Professional theme variables */
+  /* Light theme variables (default) - beige/white with orange accent */
   --primary-color: var(--orange-wheel); /* Orange accent */
   --primary-dark: #d96f1a;
   --secondary-color: #95a5a6; /* Neutral gray */
@@ -18,17 +18,17 @@
   --success-dark: #2d5c57;
   --warning-color: var(--icterine);
   --warning-dark: #e2d43d;
-  --dark-color: var(--caf-noir); /* Dark brown for dark elements */
-  --light-color: var(--icterine); /* Yellow for light elements */
+  --dark-color: #333333; /* Dark gray text */
+  --light-color: #f8f9fa; /* Light gray */
   --gray-color: #95a5a6;
-  --text-color: var(--icterine); /* Yellow text */
-  --text-light: #c8b965;
-  --text-lighter: #a39755;
-  --bg-color: var(--caf-noir); /* Dark brown background */
-  --card-bg: #3e2d13; /* Darker brown for cards */
-  --border-color: #6d5228; /* Subtle border */
-  --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
+  --text-color: #333333; /* Dark gray text */
+  --text-light: #6c757d; /* Light gray text */
+  --text-lighter: #888888; /* Lighter gray text */
+  --bg-color: #f5f5f5; /* Beige/soft white background */
+  --card-bg: #ffffff; /* Pure white for cards */
+  --border-color: #dee2e6; /* Light gray border */
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --shadow-hover: 0 4px 12px rgba(0,0,0, 0.15);
   --border-radius: 12px;
   --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-fast: all 0.15s ease;
@@ -65,7 +65,7 @@
   --z-tooltip: 1070;
 }
 
-/* Dark mode variables - simplified professional theme */
+/* Dark mode variables - dark equivalent with orange accent */
 [data-theme="dark"] {
   --primary-color: #f28123; /* orange-wheel - main accent */
   --primary-dark: #d96f1a;
