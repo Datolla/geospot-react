@@ -9,8 +9,8 @@
 }
 
 .header {
-  background-color: var(--dark-color);
-  color: white;
+  background-color: var(--card-bg);
+  color: var(--text-color);
   padding: 0.5rem 0;
   box-shadow: var(--shadow);
   position: sticky;
@@ -31,14 +31,14 @@
 .logo h1 {
   margin: 0;
   font-size: 1.5rem;
-  color: white;
+  color: var(--primary-color);
   text-decoration: none;
   transition: var(--transition);
 }
 
 .logo:hover {
   text-decoration: none;
-  text-shadow: 0 0 10px var(--bright-pink-crayola);
+  text-shadow: 0 0 10px rgba(242, 129, 35, 0.5);
 }
 
 .nav {
@@ -59,7 +59,7 @@
 }
 
 .nav a {
-  color: white;
+  color: var(--text-color);
   text-decoration: none;
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
@@ -130,7 +130,7 @@
 }
 
 .footer {
-  background-color: var(--lavender-blush);
+  background-color: var(--card-bg);
   padding: 1.5rem 0;
   margin-top: auto;
   color: var(--text-color);
@@ -180,7 +180,7 @@
 .menu-toggle span {
   width: 25px;
   height: 3px;
-  background-color: white;
+  background-color: var(--text-color);
   margin: 3px 0;
   transition: 0.3s;
 }
@@ -210,7 +210,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--licorice);
+    background-color: var(--card-bg);
     padding: 1rem;
     box-shadow: var(--shadow);
     z-index: var(--z-dropdown);

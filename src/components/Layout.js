@@ -85,7 +85,7 @@ const Layout = ({ children }) => {
                   Upload
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link 
                   to="/docs" 
                   className={`slide-in-left ${isActive('/docs') ? 'active' : ''}`}
@@ -93,7 +93,7 @@ const Layout = ({ children }) => {
                 >
                   Docs
                 </Link>
-              </li>
+              </li> */}
             </ul>
             <div className="theme-toggle-container">
               <button 
