@@ -111,19 +111,19 @@ const DatasetDetail = () => {
     fetchData();
   }, [id]);
 
-  // Function to style GeoJSON features with different colors for different geometry types using new color scheme
+  // Function to style GeoJSON features with simplified professional color scheme
   const styleFeature = (feature) => {
     const geometryType = feature.geometry.type;
     
     let style = {};
     
-    // Different styles for different geometry types using your new color palette
+    // Different styles for different geometry types - simplified color scheme
     switch(geometryType) {
       case 'Point':
         style = {
           radius: 8,
-          fillColor: "var(--syracuse-red-orange)", // Red-orange for points
-          color: "#000000", // Black border for contrast
+          fillColor: "#f28123", // orange-wheel for points
+          color: "#2c3e50", // dark blue-gray border
           weight: 1,
           opacity: 1,
           fillOpacity: 0.8
@@ -131,7 +131,7 @@ const DatasetDetail = () => {
         break;
       case 'LineString':
         style = {
-          color: "var(--orange-wheel)", // Orange for lines
+          color: "#f28123", // orange-wheel for lines
           weight: 4,
           opacity: 0.8
         };
@@ -139,20 +139,20 @@ const DatasetDetail = () => {
       case 'Polygon':
       case 'MultiPolygon':
         style = {
-          fillColor: "var(--myrtle-green)", // Green for polygons
+          fillColor: "#34495e", // dark blue-gray for polygons
           weight: 2,
           opacity: 1,
-          color: "#000000", // Black border for contrast
+          color: "#2c3e50", // dark blue-gray border
           dashArray: '3',
           fillOpacity: 0.7
         };
         break;
       default:
         style = {
-          fillColor: "var(--icterine)", // Yellow for other types
+          fillColor: "#95a5a6", // gray for other types
           weight: 2,
           opacity: 1,
-          color: "#000000", // Black border for contrast
+          color: "#7f8c8d", // mid-gray border
           dashArray: '3',
           fillOpacity: 0.7
         };

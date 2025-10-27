@@ -7,28 +7,28 @@
   --caf-noir: #563f1b;
   --myrtle-green: #38726c;
   
-  /* Dark-themed variables using your color palette */
-  --primary-color: var(--orange-wheel);
+  /* Professional theme variables */
+  --primary-color: var(--orange-wheel); /* Orange accent */
   --primary-dark: #d96f1a;
-  --secondary-color: var(--myrtle-green);
-  --secondary-dark: #2d5c57;
+  --secondary-color: #95a5a6; /* Neutral gray */
+  --secondary-dark: #7f8c8d;
   --danger-color: var(--syracuse-red-orange);
   --danger-dark: #b53d18;
   --success-color: var(--myrtle-green);
   --success-dark: #2d5c57;
   --warning-color: var(--icterine);
   --warning-dark: #e2d43d;
-  --dark-color: var(--icterine); /* Bright text for contrast */
-  --light-color: var(--caf-noir);
+  --dark-color: var(--caf-noir); /* Dark brown for dark elements */
+  --light-color: var(--icterine); /* Yellow for light elements */
   --gray-color: #95a5a6;
-  --text-color: var(--icterine);
+  --text-color: var(--icterine); /* Yellow text */
   --text-light: #c8b965;
   --text-lighter: #a39755;
-  --bg-color: var(--caf-noir); /* Dark background */
-  --card-bg: #3e2d13;
-  --border-color: #6d5228;
+  --bg-color: var(--caf-noir); /* Dark brown background */
+  --card-bg: #3e2d13; /* Darker brown for cards */
+  --border-color: #6d5228; /* Subtle border */
   --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-hover: 0 6px 16px rgba(242, 129, 35, 0.3);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
   --border-radius: 12px;
   --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-fast: all 0.15s ease;
@@ -65,29 +65,29 @@
   --z-tooltip: 1070;
 }
 
-/* Dark mode variables with your new color scheme */
+/* Dark mode variables - simplified professional theme */
 [data-theme="dark"] {
-  --primary-color: #f28123; /* orange-wheel */
+  --primary-color: #f28123; /* orange-wheel - main accent */
   --primary-dark: #d96f1a;
-  --secondary-color: #38726c; /* myrtle-green */
-  --secondary-dark: #2d5c57;
+  --secondary-color: #95a5a6; /* neutral gray */
+  --secondary-dark: #7f8c8d;
   --danger-color: #d34e24; /* syracuse-red-orange */
   --danger-dark: #b53d18;
   --success-color: #38726c; /* myrtle-green */
   --success-dark: #2d5c57;
   --warning-color: #f7f052; /* icterine */
   --warning-dark: #e2d43d;
-  --dark-color: #f7f052; /* icterine */
-  --light-color: #563f1b; /* caf-noir */
-  --gray-color: #95a5a6;
-  --text-color: #f7f052; /* icterine */
-  --text-light: #c8b965;
-  --text-lighter: #a39755;
-  --bg-color: #121212; /* traditional dark background */
+  --dark-color: #f8f9fa; /* light gray for text */
+  --light-color: #212529; /* dark gray */
+  --gray-color: #6c757d;
+  --text-color: #e9ecef; /* light text */
+  --text-light: #ced4da;
+  --text-lighter: #adb5bd;
+  --bg-color: #121212; /* dark background */
   --card-bg: #1e1e1e;
   --border-color: #343a40;
   --shadow: 0 2px 8px rgba(0,0,0,0.3);
-  --shadow-hover: 0 8px 24px rgba(242, 129, 35, 0.3);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 /* Consistent button styles */

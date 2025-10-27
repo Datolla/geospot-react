@@ -59,10 +59,10 @@
   font-size: 1.2rem;
 }
 
-/* Improve popup styling with new color scheme */
+/* Improve popup styling with simplified color scheme */
 .leaflet-popup-content {
   margin: 10px;
-  color: #000000; /* Dark text for readability */
+  color: #333; /* Standard dark text for readability */
 }
 
 .leaflet-popup-content b {
@@ -73,20 +73,21 @@
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: var(--icterine); /* Bright yellow background for contrast */
+  background: white; /* Standard white background */
   box-shadow: var(--shadow);
   border-radius: calc(var(--border-radius) - 4px);
   border: 1px solid var(--border-color);
-  color: #000000; /* Dark text for readability */
+  color: #333; /* Standard dark text */
 }
 
 .leaflet-bar {
   border-radius: calc(var(--border-radius) - 4px);
   box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
 }
 
 .leaflet-bar a {
-  background-color: var(--card-bg);
+  background-color: white;
   color: var(--text-color);
   border-bottom: 1px solid var(--border-color);
 }
@@ -105,20 +106,20 @@
   border-bottom: none;
 }
 
-/* Fullscreen button styles */
+/* Fullscreen button styles - simplified */
 .fullscreen-btn {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 1000;
-  background: var(--card-bg);
+  background: white;
   border: 1px solid var(--border-color);
   border-radius: calc(var(--border-radius) - 4px);
   padding: 8px 12px;
   cursor: pointer;
   box-shadow: var(--shadow);
   font-size: 0.9rem;
-  color: var(--text-color);
+  color: var(--dark-color);
   transition: var(--transition);
 }
 
@@ -139,6 +140,7 @@
   border-radius: 0;
   margin: 0;
   box-shadow: none;
+  background: white;
 }
 
 .map-container.fullscreen .fullscreen-btn {
