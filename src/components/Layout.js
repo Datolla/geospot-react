@@ -85,6 +85,15 @@ const Layout = ({ children }) => {
                   Upload
                 </Link>
               </li>
+              <li>
+                <Link 
+                  to="/docs" 
+                  className={`slide-in-left ${isActive('/docs') ? 'active' : ''}`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Docs
+                </Link>
+              </li>
             </ul>
             <div className="theme-toggle-container">
               <button 
@@ -107,7 +116,7 @@ const Layout = ({ children }) => {
         <div className="footer-content">
           <p>© {new Date().getFullYear()} GeoSpot - Geospatial Data Management</p>
           <div className="footer-links">
-            <a href="/docs" target="_blank" rel="noopener noreferrer">API Docs</a>
+            <Link to="/docs">Documentation</Link>
             <a href="#about">About</a>
           </div>
         </div>

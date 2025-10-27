@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import DatasetList from './pages/DatasetList';
 import DatasetDetail from './pages/DatasetDetail';
 import Upload from './pages/Upload';
+import Docs from './pages/Docs';
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/datasets" element={<DatasetList />} />
           <Route path="/datasets/:id" element={<DatasetDetail />} />
           <Route path="/upload" element={<Upload />} />
+          <Route path="/docs" element={<Docs />} />
         </Routes>
       </Layout>
     </Router>
