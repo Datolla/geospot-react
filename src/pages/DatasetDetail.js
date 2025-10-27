@@ -23,7 +23,6 @@ const DatasetDetail = () => {
   const [geojsonData, setGeojsonData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [mapKey, setMapKey] = useState(0); // To force map re-render when data changes
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Fetch dataset metadata
@@ -41,10 +40,6 @@ const DatasetDetail = () => {
     try {
       const data = await GeoSpotAPI.getDatasetGeoJSON(id);
       setGeojsonData(data);
-      // Update map after data is loaded
-      setTimeout(() => {
-        setMapKey(prev => prev + 1);
-      }, 100);
     } catch (err) {
       setError(err.message);
     }
@@ -138,7 +133,10 @@ const DatasetDetail = () => {
         // Create a temporary GeoJSON layer to get bounds
         const geoJsonLayer = L.geoJSON(geojsonData);
         if (geoJsonLayer.getBounds().isValid()) {
-          map.fitBounds(geoJsonLayer.getBounds(), { padding: [50, 50] });
+          // Add a small delay to ensure the map is ready
+          setTimeout(() => {
+            map.fitBounds(geoJsonLayer.getBounds(), { padding: [50, 50] });
+          }, 100);
         }
       }
     }, [geojsonData, map]);
@@ -228,7 +226,6 @@ const DatasetDetail = () => {
                 {isFullscreen ? 'Exit Fullscreen' : 'View Fullscreen'}
               </button>
               <MapContainer 
-                key={mapKey}
                 center={[0, 0]} 
                 zoom={2} 
                 style={{ height: '100%', width: '100%' }}
