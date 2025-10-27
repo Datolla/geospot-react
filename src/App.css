@@ -1,0 +1,37 @@
+/* Global styles for the application */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Additional global styles */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Set default theme to dark */
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* Ensure proper background for the whole app */
+#root {
+  min-height: 100vh;
+  background-color: var(--bg-color, #563f1b); /* caf-noir as fallback */
+  color: var(--text-color, #f7f052); /* icterine as fallback */
+}

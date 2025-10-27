@@ -24,7 +24,6 @@ const DatasetDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [mapKey, setMapKey] = useState(0); // To force map re-render when data changes
-  const [mapBounds, setMapBounds] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Fetch dataset metadata
@@ -109,7 +108,7 @@ const DatasetDetail = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, fetchDataset, fetchGeoJSON]);
 
   // Function to style GeoJSON features with simplified professional color scheme
   const styleFeature = (feature) => {
