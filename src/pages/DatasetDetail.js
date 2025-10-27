@@ -41,9 +41,8 @@ const DatasetDetail = () => {
     try {
       const data = await GeoSpotAPI.getDatasetGeoJSON(id);
       setGeojsonData(data);
-      // Calculate bounds and set them after data is loaded
+      // Update map after data is loaded
       setTimeout(() => {
-        calculateBounds(data);
         setMapKey(prev => prev + 1);
       }, 100);
     } catch (err) {
@@ -51,47 +50,7 @@ const DatasetDetail = () => {
     }
   };
 
-  // Function to calculate map bounds based on GeoJSON data
-  const calculateBounds = (geojsonData) => {
-    if (!geojsonData || !geojsonData.features || geojsonData.features.length === 0) {
-      return;
-    }
 
-    let minLat = Infinity;
-    let maxLat = -Infinity;
-    let minLng = Infinity;
-    let maxLng = -Infinity;
-
-    // Helper function to process coordinates
-    const processCoords = (coords) => {
-      if (typeof coords[0] === 'number' && typeof coords[1] === 'number') {
-        // Point coordinates [lng, lat]
-        const [lng, lat] = coords;
-        minLat = Math.min(minLat, lat);
-        maxLat = Math.max(maxLat, lat);
-        minLng = Math.min(minLng, lng);
-        maxLng = Math.max(maxLng, lng);
-      } else if (Array.isArray(coords[0])) {
-        // Array of coordinates for LineString, Polygon, etc.
-        coords.forEach(processCoords);
-      }
-    };
-
-    // Process each feature in the dataset
-    geojsonData.features.forEach(feature => {
-      if (feature.geometry && feature.geometry.coordinates) {
-        processCoords(feature.geometry.coordinates);
-      }
-    });
-
-    if (isFinite(minLat) && isFinite(maxLat) && isFinite(minLng) && isFinite(maxLng)) {
-      const bounds = [
-        [minLat, minLng],
-        [maxLat, maxLng]
-      ];
-      setMapBounds(bounds);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
